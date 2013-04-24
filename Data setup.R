@@ -5,7 +5,11 @@
                      #                                                 #
                      ###################################################
                      ###################################################
+#  YOUSEF:  Please review my initial data setup and let me know if this is 
+#  an optimal way to read in and recode variables
 
+                     
+                     
 #  Adjust the following paths to be consistent with the working directory and file
 #  structure of local computer                 
                                      
@@ -118,8 +122,17 @@ followup1Variables <- c(
 data01 <- da29961.0001[baselineVariables]
 data02 <- da29961.0002[followup1Variables]   
 
+#  YOUSEF:  I have a few variables that I want to get from the remaining data files 03.rda to 11.rda.
+#  How can I merge all these data files on CASEID at once, as opposed to doing multiple merges?  
+                     
+                     
 mergedata1 <- merge(data01, data02, by = "CASEID") #merge dataframes
 
+#  YOUSEF:  You mention reserving use of periods only for use with internal functions and not
+#  varialbe names.  It seems that the use of periods in R for variable names is actually an
+#  accepted (and encouraged) practice.  Can you confirm?  
+                     
+                     
 FOLLOWUP1 <- rename(mergedata1, c(
      S0AGE = "age", 
      S0ETHN_R = "ethnic", 
@@ -202,7 +215,7 @@ keep(FOLLOWUP1, sure=TRUE)   #Get rid of everything in workspace except this obj
 #This saves the dataframe as an .RDA file                     
 save(FOLLOWUP1, file = "HeadInjuryData.rda")
                      
-                     
+           
 
 
              
