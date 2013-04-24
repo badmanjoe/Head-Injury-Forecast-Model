@@ -6,6 +6,20 @@
                      ###################################################
                      ###################################################
 
+#  Adjust the following paths to be consistent with the working directory and file
+#  structure of local computer                 
+                                     
+setwd("~/Documents/R Analysis/Head Injury Forecast Model/Data")
+load("~/Documents/R Analysis/Head Injury Forecast Model/Data/01.rda") # Baseline data
+load("~/Documents/R Analysis/Head Injury Forecast Model/Data/02.rda") #Six month followup
+                     
+                     
+                     
+
+                     ###################################################
+                     #          Libraries to load                      #
+                     ###################################################
+                     
 library(gdata)  #this library contains the keep function 
                 #for cleaning up the workspace
 
@@ -13,19 +27,11 @@ library(reshape) #this library is used to obtain the rename function
                      
 
 
-list.files()  #files in my working directory?  
+list.files()  #files in my working directory  
                                           
-################################
-#Setting up baseline data files#
-################################
-
-setwd("~/Desktop/Pathways/Data")
-
-load("~/Desktop/Pathways/Data/01.rda") # Baseline data
-load("~/Desktop/Pathways/Data/02.rda") #Six month followup
 
 
-baseline.variables <- c(               #Select baseline variables to keep
+baselineVariables <- c(               #Select baseline variables to keep
                     #IDENTIFIER
   "CASEID",         #Case ID 
   
@@ -74,7 +80,7 @@ baseline.variables <- c(               #Select baseline variables to keep
                      
                      
 #The following code is preparing to grab the variables from follow up data files
-followup1.variables <- c(
+followup1Variables <- c(
    "CASEID",         #Case ID
    "S1SROPRV",            #Proportion using full list of offenses, including masked variables (e.g., forced sex)
    "S1SRSEND",            #Proportion of full list of offenses, including masked variables but not drugs 
@@ -109,12 +115,12 @@ followup1.variables <- c(
    ) 
 
                      
-data.01 <- da29961.0001[baseline.variables]
-data.02 <- da29961.0002[followup1.variables]   
+data01 <- da29961.0001[baselineVariables]
+data02 <- da29961.0002[followup1Variables]   
 
-mergedata.1 <- merge(data.01, data.02, by = "CASEID") #merge dataframes
+mergedata1 <- merge(data01, data02, by = "CASEID") #merge dataframes
 
-FOLLOWUP.1 <- rename(mergedata.1, c(
+FOLLOWUP1 <- rename(mergedata1, c(
      S0AGE = "age", 
      S0ETHN_R = "ethnic", 
      S0SGEND = "gender", 
@@ -179,14 +185,13 @@ FOLLOWUP.1 <- rename(mergedata.1, c(
      
      
      
-names(FOLLOWUP.1)     
+names(FOLLOWUP1)     
 
 ################################################################################
 #                    HOUSEKEEPING                                              #
 ################################################################################
 
-#FOllOWUP.1 <- na.omit(FOLLOWUP.TEMP) #Start with clean (no missing) data set to get started                 
-keep(FOLLOWUP.1, sure=TRUE)   #Get rid of everything in workspace except this object 
+keep(FOLLOWUP1, sure=TRUE)   #Get rid of everything in workspace except this object 
 
 
 
@@ -195,7 +200,7 @@ keep(FOLLOWUP.1, sure=TRUE)   #Get rid of everything in workspace except this ob
 ################################################################################
                      
 #This saves the dataframe as an .RDA file                     
-save(FOLLOWUP.1, file = "~/Desktop/Pathways/Data/HeadInjury/FOLLOWUP_1.rda")
+save(FOLLOWUP1, file = "HeadInjuryData.rda")
                      
                      
 
